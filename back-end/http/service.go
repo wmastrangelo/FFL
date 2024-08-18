@@ -1,9 +1,11 @@
 package http
 
 import (
+	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"encoding/csv"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -19,17 +21,26 @@ func StartServer() {
 	http.ListenAndServe(":9876", router)
 }
 
-func getAllPlayersFromFile(w http.ResponseWriter, r *http.Request) (string, error) {
-	file, err := os.Open("/opt/common/allplayers.csv")
+func getAllPlayersFromFile(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
+	file, err := os.Open("/Users/walkermastrangelo/allplayers.csv")
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
 	reader := csv.NewReader(file)
-	
-	records,err := reader.ReadAll()
-	if err != nil{
+
+	records, err := reader.ReadAll()
+	if err != nil {
 		panic(err)
 	}
-	w.Write([]byte(records))
+	jsonRecords, err := json.Marshal(records)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprint(w, string(jsonRecords))
+}
+
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
