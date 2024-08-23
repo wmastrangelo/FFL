@@ -9,22 +9,18 @@ class Table extends Component{
             headers : [],
             players: [],
             display: [],
+            selectedPOS: '',
         }
     }
     componentDidMount(){
-        axios
-          .get(`http://localhost:9876/allplayers`)
-          .then(res => {
-                    this.setState({headers: res.data.shift()})
-                    
-                    this.setState({players: res.data})
-                    this.setState({display: this.state.players})
-                }
-            )
-          .catch(err => console.error(err));
+       this.loadPlayers(true);
+       setInterval(() => {
+        this.loadPlayers(false);
+       }, 2000);
     }
+
     selected = (e) =>{
-        console.log(e.target.value)
+        this.setState({selectedPOS: e.target.value})
         var holding = []
         if (e.target.value === 'none'){
             this.setState({display: this.state.players})
@@ -38,6 +34,33 @@ class Table extends Component{
         this.setState({display: holding})
         }
     }
+   
+
+    loadPlayers(first){
+        axios
+        .get(`http://localhost:9876/allplayers`)
+        .then(res => {
+                  this.setState({headers: res.data.shift()})
+                  
+                  this.setState({players: res.data})
+                  if(first) {
+                  this.setState({display: this.state.players})
+                  }
+              }
+          )
+        .catch(err => console.error(err));
+
+        if(this.state.selectedPOS !== 'none' && !first){
+            var holding = []
+            this.state.players.map( (player) => {
+                if(player[4].includes(this.state.selectedPOS)) {
+                    holding.push(player)
+                }
+            })
+            this.setState({display: holding})
+        }
+    }
+
     render(){
         return(
         <div>
