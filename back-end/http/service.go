@@ -23,7 +23,7 @@ func StartServer() {
 
 func getAllPlayersFromFile(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
-	file, err := os.Open("/Users/walkermastrangelo/allplayers.csv")
+	file, err := os.Open("./allplayers.csv")
 	if err != nil {
 		panic(err)
 	}
