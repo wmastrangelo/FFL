@@ -1,0 +1,31 @@
+thead {
+  background-color: gray;
+  border: 1px solid rgb(160, 160, 160);
+  padding: 8px 10px;
+  color:white;
+  text-align: center;
+}
+tr:nth-of-type(even){
+  background-color: #eee;
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid rgb(140, 140, 140);
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  width: 100vw;
+
+}
+td {
+text-align: center;
+}
+h1 {
+  text-align: center;
+}
+
+select {
+background-color: gray;
+color:white;
+}
