@@ -26,7 +26,15 @@ class Table extends Component{
         if (e.target.value === 'none'){
             this.setState({display: this.state.players})
             
-        } else {
+        } else if (e.target.value === 'FLEX') {
+            this.state.players.map( (player) => {
+            if (player[4].includes('WR') || player[4].includes('TE') || player[4].includes('RB')){
+                holding.push(player)
+            }
+         })
+         this.setState({display: holding})
+        }
+        else {
         this.state.players.map( (player) => {
             if(player[4].includes(e.target.value)) {
                 holding.push(player)
@@ -39,12 +47,19 @@ class Table extends Component{
 
     loadPlayers(first){
         this.openFile();
-  
+        var holding = []
+
         if(first){
             this.setState({display: this.state.players})
         }
-        if(this.state.selectedPOS !== 'none' && !first){
-            var holding = []
+        else if (this.state.selectedPOS === 'FLEX' ) {
+            this.state.players.map( (player) => {
+            if (player[4].includes('WR') || player[4].includes('TE') || player[4].includes('RB')){
+                holding.push(player)
+            }
+         })
+         this.setState({display: holding})
+        } else if(this.state.selectedPOS !== 'none'){
             this.state.players.map( (player) => {
                 if(player[4].includes(this.state.selectedPOS)) {
                     holding.push(player)
@@ -135,16 +150,16 @@ class Table extends Component{
 		return( arrData );
 	}
 
-    openFile(){
-        var data = [];
-      window.fetch('allplayers.csv')
+    async openFile(){
+        await fetch('allplayers.csv', {cache: "no-store"})
         .then((res) => res.text())
         .then((text) => {
-            data = this.CSVToArray(text)
+            let data = this.CSVToArray(text)
             this.setState({headers: data.shift()})
             this.setState({players: data})
         })
         .catch((e) => {
+            console.log(e)
         })
 
     }
@@ -162,10 +177,13 @@ class Table extends Component{
                         <th>
                             <select name="position" id="position" onChange={this.selected}>
                                 <option value="none">POS</option>
+                                <option value="QB">QB</option>
                                 <option value="RB">RB</option>
                                 <option value="WR">WR</option>
-                                <option value="QB">QB</option>
                                 <option value="TE">TE</option>
+                                <option value="FLEX">FLEX</option>
+                                <option value="K">K</option>
+                                <option value="DST">D/ST</option>
                             </select>
                         </th>
                         <th>{this.state.headers[6]}</th>
