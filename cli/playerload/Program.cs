@@ -1,22 +1,23 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Data;
-using Microsoft.VisualBasic;
+
 using Microsoft.VisualBasic.FileIO;
-using MySql.Data;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Tls;
+
 namespace playerload
 {
     class Load
     {
         static void Main(string[] args)
         {
+            IConfiguration config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json").Build();
+
             List<Player> players = LoadPlayers(args[0]);
             try
             {
-                string connstring = string.Format("Server={0}; database={1}; UID={2}; password={3}", "localhost", "theleagueFFL2025", "", "");
-                MySqlConnection Connection = new(connstring);
+                MySqlConnection Connection = new(config.GetConnectionString("conn"));
                 Connection.Open();
                 var cmd = new MySqlCommand("SHOW TABLES;", Connection);
                 var reader = cmd.ExecuteReader();
@@ -73,31 +74,5 @@ namespace playerload
 
         }
     }
-    class Player
-    {
-
-        public int Rank { get; set; }
-        public string Name { get; set; }
-        public string Team { get; set; }
-        public int Bye { get; set; }
-        public string POS { get; set; }
-        public int CBS { get; set; }
-        public int Sleeper { get; set; }
-        public int RTSports { get; set; }
-        public double AVG { get; set; }
-
-        public Player()
-        {
-            Name = "";
-            Team = "";
-            POS = "";
-            CBS = 0;
-            Sleeper = 0;
-            RTSports = 0;
-        }
-        override public string ToString()
-        {
-            return "Rank: " + Rank + ", Name: " + Name + ", Team: " + Team + " POS: " + POS + " AVG: " + AVG;
-        }
-    }
+ 
 }
