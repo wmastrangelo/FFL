@@ -1,6 +1,0 @@
-@theleagueFFL_HostAddress = http://localhost:5207
-
-GET {{theleagueFFL_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
