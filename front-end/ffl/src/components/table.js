@@ -1,5 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import axios from 'axios';
+import * as signalR from "@microsoft/signalr";
+import { sendMessage } from '@microsoft/signalr/dist/esm/Utils';
+
 class Table extends Component{
 
     constructor(props) {
@@ -162,6 +165,26 @@ class Table extends Component{
             console.log(e)
         })
 
+    }
+
+    async testHub(){
+            const conn = new signalR.HubConnectionBuilder()
+              .withUrl("http://localhost:5207/drafting")
+              .withAutomaticReconnect()
+              .build();
+
+            /*conn.on("ReceiveMessage", (user, message) => {
+              setMessages(prev => [...prev, { user, message }]);
+            });*/
+        
+            await conn.start()
+              .then(() => console.log("Connected"))
+              .catch(err => console.error("Connection failed: ", err));
+          await conn.invoke("DraftPlayer", 10, 11);
+          var pID, tID = 0
+          await conn.on("PlayerDrafted", pID, tID);
+          console.log(pID)
+        console.log("attempt")
     }
 
     render(){

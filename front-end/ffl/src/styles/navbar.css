@@ -1,0 +1,34 @@
+.navbar-wrap{
+    margin-left: 8px;
+    margin-right: 8px;
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    
+}
+.logo{
+    max-width:40px;
+    max-height: 40px;
+}
+
+.navbar-left{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right{
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
+}
+
+.navbar-right a {
+    color: black;
+    margin-left: 15px;
+    text-decoration: none;
+    margin-right: 50px;
+  }
+
+  .navbar-right a:hover {
+    text-decoration: underline;
+  }
