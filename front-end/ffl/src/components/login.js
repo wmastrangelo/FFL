@@ -35,8 +35,9 @@ class LoginForm extends Component {
       .withUrl("http://localhost:5207/users")
       .withAutomaticReconnect()
       .build();
-    this.ws.on("LoginSuccess", (token) => {this.props.onLogin(token)})
-    this.ws.on("LoginFailed", (message) => { console.log(message); console.log("lose") })
+    this.ws.on("LoginSuccess", (teamID) => {this.props.onLogin(teamID, false)})
+    this.ws.on("LoginFailed", (message) => { this.setState({error: message}) })
+    this.ws.on("LoginAdmin", (teamID) => {this.props.onLogin(teamID, true)})
     this.startConnection();
   }
   async startConnection() {
@@ -48,9 +49,9 @@ class LoginForm extends Component {
     }
   }
   componentWillUnmount() {
-    if (this.conn) {
+    if (this.ws) {
       console.log("Stopping connection...");
-      this.conn.stop();
+      this.ws.stop();
     }
   }
 

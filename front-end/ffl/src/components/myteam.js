@@ -1,51 +1,58 @@
 import { Component } from "react";
-import * as signalR from "@microsoft/signalr";
+import Table from "./table";
+import { SignalRContext } from "../playerssocket";
 
 class MyTeam extends Component {
+  static contextType = SignalRContext;
     constructor(props) {
         super(props)
         this.state = {
-            players: null
+            players: null,
+            tableOn: false,
         };
-        this.conn = null;
+        this.subscribed = false;
     }
 
     componentDidMount(){
-        this.conn = new signalR.HubConnectionBuilder()
-        .withUrl("http://localhost:5207/players")
-        .withAutomaticReconnect()
-        .build();
-        
-    /*conn.on("ReceiveMessage", (user, message) => {
-      setMessages(prev => [...prev, { user, message }]);
-    });*/
-     this.conn.on("ReceiveTeamPlayers", (p) => {
-        this.setState({players: p})
-    });
-
-    this.startConnection();
+        this.trySubscribe();
+      }
+    componentDidUpdate(){
+      this.trySubscribe();
     }
-    async startConnection() {
-        try {
-          await this.conn.start();
-          console.log("SignalR connected");
-          await this.conn.invoke("GetTeamPlayers", 1);
-        } catch (err) {
-          console.error("Connection error:", err);
+      
+      trySubscribe() {
+        const connection = this.context;
+        if (connection && typeof connection.on === 'function' && !this.subscribed) {
+          connection.on("ReceiveTeamPlayers", (p) => this.setPlayers(p));
+          connection.on("PlayerDrafted", ()=>{connection.invoke("GetTeamPlayers", parseInt(localStorage.getItem("teamID")))})
+          this.subscribed = true;
+          console.log("Subscribed to SignalR");
+          connection.invoke("GetTeamPlayers", parseInt(localStorage.getItem("teamID")));
         }
       }
-      
-      componentWillUnmount() {
-        if (this.conn) {
-          console.log("Stopping connection...");
-          this.conn.stop();
+      componentWillUnmount(){
+        const connection = this.context;
+        if(this.subscribed){
+        connection.off("ReceiveTeamPlayers");
+        connection.off("ReceiveAllTeams");
         }
+      }
+
+      setPlayers(pString){
+        var pObj = JSON.parse(pString);
+        this.setState({ players:  pObj }, () => {
+            this.setState({ tableOn: true});
+        });
       }
 
     render() {
         return (
             <div>
-                <h1>{this.state.players}</h1>
+              {this.state.tableOn?
+                <Table players={this.state.players} />
+                :<></>
+
+    }
             </div>
         )
     }
