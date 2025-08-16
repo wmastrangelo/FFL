@@ -6,10 +6,10 @@ export const SignalRContext = createContext(null);
 
 export const SignalRProvider = ({ children }) => {
   const [connection, setConnection] = useState(null);
-
+  const apiUrl = process.env.REACT_APP_API_BASE_URL;
   useEffect(() => {
     const conn = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:5207/draft")
+      .withUrl( `${apiUrl}/draft`)
       .withAutomaticReconnect()
       .build();
 

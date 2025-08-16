@@ -31,8 +31,9 @@ class LoginForm extends Component {
   };
 
   componentDidMount() {
+    const apiUrl = process.env.REACT_APP_API_BASE_URL;
     this.ws = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:5207/users")
+      .withUrl(`${apiUrl}/users`)
       .withAutomaticReconnect()
       .build();
     this.ws.on("LoginSuccess", (teamID) => {this.props.onLogin(teamID, false)})
