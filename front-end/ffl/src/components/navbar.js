@@ -14,8 +14,8 @@ class NavBar extends Component{
                 </div>
                 <div className="navbar-right">
                     <Link to="/">Home</Link>
-                    <Link to="/draftboard">Draft Board</Link>
-                    <Link to="/myteam">My Team</Link>
+                    <Link to="/#/draftboard">Draft Board</Link>
+                    <Link to="/#/myteam">My Team</Link>
                     <Link onClick={this.props.onLogout}>Logout</Link>
 
                 </div>
