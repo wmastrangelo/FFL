@@ -1,7 +1,7 @@
 import './App.css';
 import DraftBoard from './components/draftboard.js';
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginForm from './components/login.js';
 import HomePage from './components/home.js';
 import NavBar from './components/navbar.js';
@@ -38,7 +38,7 @@ function App() {
   return (
       <SignalRProvider>
       {isLoggedIn && <NavBar logoClick={logoClick} onLogout={handleLogout} />}
-      <Router>
+      <HashRouter>
         <Routes>
         {!teamID ? (
         <>
@@ -59,7 +59,7 @@ function App() {
       )}
 
         </Routes>
-      </Router>
+      </HashRouter>
       </SignalRProvider>
   );
 }
