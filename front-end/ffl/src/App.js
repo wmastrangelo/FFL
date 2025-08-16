@@ -1,7 +1,7 @@
 import './App.css';
 import DraftBoard from './components/draftboard.js';
 import { useEffect, useState } from 'react';
-import { BrowserRouter as HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginForm from './components/login.js';
 import HomePage from './components/home.js';
 import NavBar from './components/navbar.js';
