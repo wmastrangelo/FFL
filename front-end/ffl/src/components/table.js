@@ -73,8 +73,11 @@ class Table extends Component{
                                 <option value="DST">D/ST</option>
                             </select>
                         </th>
+                        <th>ESPN</th>
                         <th>RTSports</th>
+                        <th>NFL</th>
                         <th>Sleeper</th>
+                        <th>Fantrax</th>
                         <th>AVG</th>
                         {localStorage.getItem("admin") && <th></th>}
                     </tr>
@@ -87,9 +90,12 @@ class Table extends Component{
                                 <td>{player.Team}</td>
                                 <td>{player.Bye}</td>
                                 <td>{player.POS}</td>
+                                <td>{player.ESPN}</td>
                                 <td>{player.RTSports}</td>
+                                <td>{player.NFL}</td>
                                 <td>{player.Sleeper}</td>
-                                <td>{player.AVG}</td>
+                                <td>{player.Fantrax}</td>
+                                <td>{player.AVG.toFixed(1)}</td>
                                 {(localStorage.getItem("admin")  === "true" && this.props.openDraftDialog != null) &&
                                     <td>
                                         <button onClick={()=>this.openDraftDialog(player.Rank)}>Draft</button>
