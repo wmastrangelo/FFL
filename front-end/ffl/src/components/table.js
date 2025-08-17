@@ -52,7 +52,6 @@ class Table extends Component{
    
 
     render(){
-        console.log("table hit")
         return(
         <div>
             <table>

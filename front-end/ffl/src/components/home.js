@@ -16,8 +16,8 @@ class HomePage extends Component{
                    <h2 style={{marginLeft:"45%"}}>Draft Order</h2>
                    <table style={{width:"80%", marginLeft:"10%", fontSize:"1rem", justifyItems:"space-between"}}>
                     <td>Costco Guys</td>
-                    <td>Puerto Rico chasteen</td>
                     <td>VB Virgins</td>
+                    <td>Puerto Rico chasteen</td>
                     <td>Beck's Boyz</td>
                     <td>Snatchin A-Chane</td>
                     <td>Roanoke Skinwalkers</td>
