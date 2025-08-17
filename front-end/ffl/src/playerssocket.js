@@ -19,6 +19,12 @@ export const SignalRProvider = ({ children }) => {
         setConnection(conn);
       })
       .catch(err => console.error("SignalR connection failed:", err));
+      // Handle automatic reconnect events
+    conn.onreconnected(() => {
+      console.log("SignalR reconnected");
+      // Optionally update connection or trigger resubscribe in components
+      setConnection(conn);  // update state to notify consumers
+    });
 
     return () => {
       conn.stop();

@@ -23,50 +23,57 @@ class DraftBoard extends Component {
     }
 
     componentDidMount() {
-        this.trySubscribe();
-    }
-    componentDidUpdate() {
-        this.trySubscribe();
-    }
-    componentWillUnmount(){
         const connection = this.context;
-        if(this.subscribed){
-        connection.off("ReceiveAvailablePlayers");
-        connection.off("ErrorPlayers");
-        connection.off("ReceiveAllTeams");
-        connection.off("PlayerDrafted")
-        }
-      }
-    trySubscribe() {
-        const connection = this.context;
-        if (connection && typeof connection.on === 'function' && !this.subscribed) {
-            connection.on("ReceiveAvailablePlayers", (p) => { this.setPlayers(p) })
-            connection.on("ErrorPlayers", (m) => { this.setState({ message: m }) });
-            connection.on("ReceiveAllTeams", (t) => {this.setState({teams: JSON.parse(t)})});
-            connection.on("PlayerDrafted", (r, tID) => {connection.invoke("GetAvailablePlayers");});
-            this.subscribed = true;
-            console.log("Subscribed to SignalR");
+        if (!connection) return;
+
+        this.subscribeHandlers();
+
+        connection.onreconnected(() => {
+            console.log("SignalR reconnected");
+            this.subscribeHandlers();
             connection.invoke("GetAvailablePlayers");
             connection.invoke("GetTeams");
-        }
+        });
+
+        connection.start().catch(err => console.error(err));
     }
 
+    subscribeHandlers() {
+        const connection = this.context;
+        if (this.subscribed || !connection) return;
+
+        connection.on("ReceiveAvailablePlayers", (p) => {
+            console.log("Received players event");  // <-- log here
+            this.setPlayers(p);
+        });
+        connection.on("ErrorPlayers", (m) => this.setState({ message: m }));
+        connection.on("ReceiveAllTeams", (t) => this.setState({ teams: JSON.parse(t) }));
+        connection.on("PlayerDrafted", () => {
+            connection.invoke("GetAvailablePlayers");
+        });
+
+        this.subscribed = true;
+        console.log("Subscribed to SignalR events");
+
+        connection.invoke("GetAvailablePlayers");
+        connection.invoke("GetTeams");
+    }
     setPlayers(pString) {
         var pObj = JSON.parse(pString);
         this.setState({ players: pObj }, () => {
             this.setState({ tableOn: true });
         });
     }
-    openDraftDialog(rank){
-        this.setState({dialogcontrol: true});
-        this.setState({draftingPlayer: rank});
+    openDraftDialog(rank) {
+        this.setState({ dialogcontrol: true });
+        this.setState({ draftingPlayer: rank });
 
     }
-    closeDialog(){
-        this.setState({dialogcontrol: false})
+    closeDialog() {
+        this.setState({ dialogcontrol: false })
     }
 
-    draftPlayer(id){
+    draftPlayer(id) {
         const connection = this.context
         connection.invoke("DraftPlayer", this.state.draftingPlayer, parseInt(id) + 1);
         this.closeDialog();
@@ -75,11 +82,11 @@ class DraftBoard extends Component {
     render() {
         return (
             <>
-            {this.state.teams &&  this.state.dialogcontrol && <DraftDialog teams={this.state.teams} closedialog={this.closeDialog} draftplayer={this.draftPlayer} id="dialog"/>}
-            {this.state.tableOn ?
-                <Table players={this.state.players} openDraftDialog={this.openDraftDialog}/> :
-                <></>
-            }
+                {this.state.teams && this.state.dialogcontrol && <DraftDialog teams={this.state.teams} closedialog={this.closeDialog} draftplayer={this.draftPlayer} id="dialog" />}
+                {this.state.tableOn ?
+                    <Table players={this.state.players} openDraftDialog={this.openDraftDialog} /> :
+                    <></>
+                }
             </>
         )
     }

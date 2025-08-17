@@ -24,23 +24,25 @@ function App() {
     localStorage.setItem('teamID', teamID);
     localStorage.setItem('admin', admin);
     setIsLoggedIn(true);
-    window.location = "/draftboard";
+    window.location = "/#/";
   };
   const handleLogout = () => {
     localStorage.removeItem('teamID');
     localStorage.removeItem('admin');
     setIsLoggedIn(false);
-    window.location = "/login";
+    window.location = "/#/login";
   };
   const logoClick = () => {
-    window.location = "/"
+    window.location = "/#/"
   }
   return (
       <SignalRProvider>
-      {isLoggedIn && <NavBar logoClick={logoClick} onLogout={handleLogout} />}
+
       <HashRouter>
+      {isLoggedIn && <NavBar logoClick={logoClick} onLogout={handleLogout} />}
+
         <Routes>
-        {!teamID ? (
+        {!localStorage.getItem('teamID') ? (
         <>
           <Route path="/login" element={<LoginForm onLogin={handleLogin}/>} />
           <Route path="*" element={<Navigate to="/login" replace />} />
