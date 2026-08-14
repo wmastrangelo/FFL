@@ -29,12 +29,6 @@ class HomePage extends Component{
                     <td>Atlanta Slime</td>
                     </table>
                 </div>
-                <div style={{marginLeft:"35%", gridColumn:"1"}}>
-                    <h2>Closest Margin: </h2>
-                    <img src="images/lcvsja.png" width={"50%"}></img>
-                    <h4>Week 11, 2024 season</h4>
-                </div>
-
                 <div>
                     <h2 style={{marginLeft:"45%"}}>Season Stats</h2>
                     <img src="images/seasonstats.png" width={"80%"} style={{marginLeft:"10%"}}></img>
