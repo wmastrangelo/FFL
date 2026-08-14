@@ -1,24 +1,25 @@
 
 .login-page{
-
+    background-image: url('/public/images/sports-2454766_1920.jpg');
+        background-size: cover;
     min-height: 100vh;
     display: flex;
   }
-  
-  
+
+
   .login-container{
     padding-left: 8%;
     padding-right: 8%;
     background-color: white;
     align-content: center;
-    width: 35%;
-    
+    width: 18%;
+
   }
-  
+
   .login-input{
     width: 50%;
   }
-  
+
   .login-form{
-    width: 80%;
+    width: 100%;
   }

@@ -91,9 +91,6 @@ class LoginForm extends Component {
             <button type="submit">Login</button>
           </form>
         </div>
-        <div className='img-container'>
-          <img src='images/group.JPG' ></img>
-        </div>
       </div>
     );
   }

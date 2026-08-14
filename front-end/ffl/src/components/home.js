@@ -15,18 +15,18 @@ class HomePage extends Component{
                 <div>
                    <h2 style={{marginLeft:"45%"}}>Draft Order</h2>
                    <table style={{width:"80%", marginLeft:"10%", fontSize:"1rem", justifyItems:"space-between"}}>
-                    <td>Costco Guys</td>
+                    <td>Charleston Chew</td>
+                    <td>Mr Two Time*</td>
                     <td>VB Virgins</td>
                     <td>Puerto Rico chasteen</td>
-                    <td>Beck's Boyz</td>
-                    <td>Snatchin A-Chane</td>
+                    <td>Fluffs meatprints</td>
                     <td>Roanoke Skinwalkers</td>
-                    <td>VA_WockGoblins</td>
-                    <td>Atlanta Slime</td>
-                    <td>Green Bowl Packers</td>
-                    <td>Colorado Crazies</td>
+                    <td>Sunny Spa Squad</td>
+                    <td>Bijan Mustard</td>
                     <td>Diddy Watson</td>
-                    <td>Mr Two Time*</td>
+                    <td>Green Bowl Packers</td>
+                    <td>Snatchin A-Chane</td>
+                    <td>Atlanta Slime</td>
                     </table>
                 </div>
                 <div style={{marginLeft:"35%", gridColumn:"1"}}>
@@ -34,7 +34,7 @@ class HomePage extends Component{
                     <img src="images/lcvsja.png" width={"50%"}></img>
                     <h4>Week 11, 2024 season</h4>
                 </div>
-               
+
                 <div>
                     <h2 style={{marginLeft:"45%"}}>Season Stats</h2>
                     <img src="images/seasonstats.png" width={"80%"} style={{marginLeft:"10%"}}></img>
