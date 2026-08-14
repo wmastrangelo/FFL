@@ -27,7 +27,7 @@ class Table extends Component{
         var holding = []
         if (e.target.value === 'none'){
             this.setState({display: this.props.players})
-            
+
         } else if (e.target.value === 'FLEX') {
             this.props.players.map( (player) => {
             if (player.POS.includes('WR') || player.POS.includes('TE') || player.POS.includes('RB')){
@@ -49,7 +49,7 @@ class Table extends Component{
     openDraftDialog(rank){
         this.props.openDraftDialog(rank);
     }
-   
+
 
     render(){
         return(
@@ -77,7 +77,6 @@ class Table extends Component{
                         <th>RTSports</th>
                         <th>NFL</th>
                         <th>Sleeper</th>
-                        <th>Fantrax</th>
                         <th>AVG</th>
                         {localStorage.getItem("admin") && <th></th>}
                     </tr>
@@ -94,7 +93,6 @@ class Table extends Component{
                                 <td>{player.RTSports}</td>
                                 <td>{player.NFL}</td>
                                 <td>{player.Sleeper}</td>
-                                <td>{player.Fantrax}</td>
                                 <td>{player.AVG.toFixed(1)}</td>
                                 {(localStorage.getItem("admin")  === "true" && this.props.openDraftDialog != null) &&
                                     <td>
@@ -104,7 +102,7 @@ class Table extends Component{
                             </tr>
                        )
                     }
-                    
+
                 </tbody>
             </table>
         </div>
